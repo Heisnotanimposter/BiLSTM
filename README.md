@@ -1,69 +1,264 @@
-# BiLSTM Project
+# BiLSTM Audio Classification Project
 
-This project explores the use of a Bidirectional Long Short-Term Memory (BiLSTM) network for audio classification, specifically focusing on distinguishing between real and fake audio samples. It incorporates both MFCC (Mel-Frequency Cepstral Coefficients) features and Mel-spectrogram images to leverage different aspects of the audio data.
+A comprehensive deep learning project for audio classification using Bidirectional Long Short-Term Memory (BiLSTM) networks. This project focuses on distinguishing between real and fake audio samples using MFCC (Mel-Frequency Cepstral Coefficients) features and Mel-spectrogram images.
 
-## Project Structure
+## 🎯 Project Overview
 
-The repository contains the following files:
+This project implements a robust audio classification system that can:
+- Extract MFCC features from audio files
+- Generate Mel-spectrogram images
+- Train BiLSTM and CNN-BiLSTM hybrid models
+- Evaluate model performance with comprehensive metrics
+- Generate predictions for new audio samples
 
-*   `CNN_BiLSTM.ipynb`:  A combined CNN-BiLSTM model, integrating both MFCC features and Mel-spectrogram images for audio classification. It includes data loading, preprocessing, model definition, training, and evaluation steps.
-*    `CNN_BiLSTM_gelu.ipynb`: Implements a combined CNN-BiLSTM architecture, using MFCC features and Mel-spectrogram images. The CNN part of the model uses the GELU activation function.
-*   `GDP_Data.csv`: Contains GDP data, potentially used as a feature or for analysis in relation to the audio data (details of its use are not explicitly defined in the provided code).
-*   `Government_Debt_Data.csv`: Government Debt Data, potentially used as a feature or for analysis in relation to the audio data (details of its use are not explicitly defined in the provided code).
-*   `Inflation_Rate_Data.csv`: Inflation Rate Data, potentially used as a feature or for analysis in relation to the audio data (details of its use are not explicitly defined in the provided code).
-*   `Interest_Rate_Data.csv`: Interest Rate Data, potentially used as a feature or for analysis in relation to the audio data (details of its use are not explicitly defined in the provided code).
-*   `LICENSE`: Contains the project's license information.
-*   `README.md`: This file, providing an overview of the project.
-*   `Unemployment_Rate_Data.csv`: Unemployment Rate Data, potentially used as a feature or for analysis in relation to the audio data (details of its use are not explicitly defined in the provided code).
-*   `bilstmtest.py`:  Implementation of a BiLSTM model (it seems, this is not used in the Colab notebooks), focusing on text processing and classification using word embeddings. It includes functionalities for training, evaluation, and prediction.
-*   `submission_maker.ipynb`: Notebook designed to generate a submission file based on the model's predictions.
-*   `/content/drive/MyDrive/dataset/TeamDeepwave/dataset/open/train`: Directory containing the training audio files in `.ogg` format.
-*   `/content/drive/MyDrive/dataset/TeamDeepwave/dataset/open/train.csv`: CSV file containing the training labels and file paths.
-*   `/content/drive/MyDrive/dataset/TeamDeepwave/dataset/open/train_mfcc.npy`: Numpy array file storing the training MFCC (Mel-Frequency Cepstral Coefficients) features.
-*   `/content/drive/MyDrive/dataset/TeamDeepwave/dataset/open/train_labels.npy`: Numpy array file storing the training labels.
-*   `/content/drive/MyDrive/dataset/TeamDeepwave/dataset/open/val_mfcc.npy`: Numpy array file storing the validation MFCC features.
-*   `/content/drive/MyDrive/dataset/TeamDeepwave/dataset/open/val_labels.npy`: Numpy array file storing the validation labels.
-*   `/content/drive/MyDrive/dataset/TeamDeepwave/dataset/preprocessed/`: Directory to store preprocessed audio data.
+## 📁 Project Structure
 
-## Key Components and Functionality
+```
+BiLSTM/
+├── config.py                 # Centralized configuration management
+├── models.py                 # Model definitions (BiLSTM, CNN, Combined)
+├── utils.py                  # Utility functions (data loading, preprocessing, evaluation)
+├── train.py                  # Main training script
+├── predict.py                # Inference script
+├── requirements.txt          # Python dependencies
+├── README.md                 # This file
+├── LICENSE                   # License information
+│
+├── data/                     # Data directory (create this)
+│   └── TeamDeepwave/
+│       └── dataset/
+│           └── open/
+│               ├── train/    # Training audio files (.ogg)
+│               ├── train.csv # Training labels
+│               └── test.csv  # Test data
+│
+├── models/                   # Saved models (auto-created)
+├── outputs/                  # Output files (auto-created)
+└── logs/                     # Training logs (auto-created)
+```
 
-### 1. Data Loading and Preprocessing
+## 🚀 Quick Start
 
-*   **Audio Data:** The project uses `.ogg` audio files located in the `/content/drive/MyDrive/dataset/TeamDeepwave/dataset/open/train` directory.
-*   **Feature Extraction:**
-    *   **MFCC:** Mel-Frequency Cepstral Coefficients are extracted using `librosa`. The code pads or truncates MFCC sequences to a fixed length (`MAX_SEQ_LEN`).
-    *   **Mel-spectrogram:** Mel-spectrogram images are generated from audio files. These images are resized, converted to grayscale, and normalized.
-*   **Data Splitting:** The dataset is split into training and validation sets using `train_test_split` from `sklearn.model_selection`.
-*   **Custom Dataset:** A `CustomDataset` class is defined using `torch.utils.data.Dataset` to handle loading and preprocessing of audio data and labels.
+### 1. Installation
 
-### 2. Model Architectures
+```bash
+# Clone the repository
+git clone <repository-url>
+cd BiLSTM
 
-*   **BiLSTM (bilstmtest.py):**
-    *   A Bidirectional LSTM network is implemented for text classification.
-    *   It uses pre-trained word embeddings (e.g., from `wiki-news-300d-1M`) to initialize the embedding layer.
-    *   The network consists of an embedding layer, a BiLSTM layer, and a linear layer for classification.
-*   **CNN (CNN\_BiLSTM.ipynb and CNN\_BiLSTM\_gelu.ipynb):**
-    *   A Convolutional Neural Network is designed for processing Mel-spectrogram images.
-    *   It includes convolutional layers, pooling layers, and fully connected layers.
-    *   The `CNN_BiLSTM_gelu.ipynb` notebook utilizes the GELU activation function in the CNN layers.
-*   **Combined CNN-BiLSTM (CNN\_BiLSTM.ipynb and CNN\_BiLSTM\_gelu.ipynb):**
-    *   Combines the BiLSTM (for MFCC features) and CNN (for Mel-spectrogram images) models.
-    *   Concatenates the outputs of the BiLSTM and CNN layers and feeds them into a fully connected layer for final classification.
+# Create a virtual environment (recommended)
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-### 3. Training and Evaluation
+# Install dependencies
+pip install -r requirements.txt
+```
 
-*   **Training Loop:** The training loop iterates through the training data, calculates the loss, and updates the model's parameters using an optimizer (e.g., Adam).
-*   **Loss Function:** Binary Cross Entropy with Logits Loss (`BCEWithLogitsLoss`) is used as the loss function in `bilstmtest.py`, while `CrossEntropyLoss` is used in `CNN_BiLSTM.ipynb` and `CNN_BiLSTM_gelu.ipynb`.
-*   **Evaluation:** The model's performance is evaluated on a validation set, and metrics such as accuracy and F1-score are calculated.
-*   **Model Saving:** The best-performing model is saved during training.
+### 2. Configuration
 
-### 4. Submission Generation
+Before running the training script, update the paths in `config.py` to match your local setup:
 
-*   The `submission_maker.ipynb` notebook is used to generate a submission file in the required format, based on the model's predictions on the test data.
+```python
+# In config.py
+DATASET_ROOT = DATA_DIR / "TeamDeepwave" / "dataset" / "open"
+TRAIN_DIR = DATASET_ROOT / "train"
+TRAIN_CSV = DATASET_ROOT / "train.csv"
+```
 
-## Usage
+### 3. Data Preparation
 
-1.  **Install Dependencies:** Ensure that you have the necessary libraries installed. You can install them using `pip`:
+Place your audio files in the appropriate directory structure:
+- Training audio files: `data/TeamDeepwave/dataset/open/train/`
+- Training CSV with labels: `data/TeamDeepwave/dataset/open/train.csv`
+
+The CSV file should have the following format:
+```csv
+path,label
+train/audio1.ogg,real
+train/audio2.ogg,fake
+...
+```
+
+### 4. Training
+
+#### Basic Training (extract features on-the-fly):
+```bash
+python train.py
+```
+
+#### Training with Preprocessed Features:
+```bash
+# First run extracts and saves features
+python train.py
+
+# Subsequent runs can use preprocessed features
+python train.py --use-preprocessed
+```
+
+### 5. Inference
 
     ```bash  
-    pip install librosa numpy pandas scikit-learn torch torchtext torchvision pillow  
+python predict.py --model models/best_model.pt --input path/to/audio.ogg
+```
+
+## 📊 Features
+
+### 1. **Modular Architecture**
+- Clean separation of concerns (config, models, utils, training)
+- Easy to extend and modify
+- Reusable components
+
+### 2. **Comprehensive Configuration**
+- Centralized configuration in `config.py`
+- Easy to adjust hyperparameters
+- Support for different model architectures
+
+### 3. **Robust Data Processing**
+- Automatic feature extraction (MFCC, Mel-spectrogram)
+- Data augmentation support
+- Efficient data loading with PyTorch DataLoader
+
+### 4. **Advanced Models**
+- **BiLSTM**: Bidirectional LSTM for sequence modeling
+- **CNN**: Convolutional network for image processing
+- **CombinedModel**: Hybrid CNN-BiLSTM architecture
+
+### 5. **Training Features**
+- Early stopping to prevent overfitting
+- Learning rate scheduling
+- Model checkpointing
+- Comprehensive logging
+- Progress bars with tqdm
+
+### 6. **Evaluation Metrics**
+- Accuracy, F1-Score, Precision, Recall
+- ROC-AUC Score
+- Confusion Matrix
+- Classification Report
+- Automatic threshold optimization
+
+## 🔧 Configuration Options
+
+Key parameters in `config.py`:
+
+```python
+# Audio Processing
+SR = 16000                    # Sample rate
+N_MFCC = 13                   # Number of MFCC coefficients
+MAX_SEQ_LEN = 200             # Maximum sequence length
+
+# Model Architecture
+HIDDEN_DIM = 128              # LSTM hidden dimension
+N_LAYERS = 2                  # Number of LSTM layers
+BIDIRECTIONAL = True          # Use bidirectional LSTM
+DROPOUT = 0.3                 # Dropout rate
+
+# Training
+BATCH_SIZE = 64               # Batch size
+N_EPOCHS = 20                 # Number of epochs
+LR = 1e-4                     # Learning rate
+EARLY_STOPPING_PATIENCE = 5   # Early stopping patience
+```
+
+## 📈 Model Performance
+
+The project tracks and logs:
+- Training/validation loss and accuracy
+- Learning rate changes
+- Best model checkpoint
+- Detailed evaluation metrics
+
+Example output:
+```
+Epoch 1/20
+------------------------------------------------------------
+Training: 100%|██████████| 125/125 [00:15<00:00,  8.12it/s]
+Validation: 100%|██████████| 32/32 [00:02<00:00, 14.56it/s]
+Train Loss: 0.4523 | Train Acc: 78.45%
+Val Loss: 0.3891 | Val Acc: 82.34%
+Learning Rate: 0.000100
+Saved best model with val_loss: 0.3891
+```
+
+## 🛠️ Advanced Usage
+
+### Custom Model Architecture
+
+You can modify the model architecture in `models.py`:
+
+```python
+# Example: Create a custom model
+class CustomModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # Your architecture here
+```
+
+### Data Augmentation
+
+Add data augmentation in `utils.py`:
+
+```python
+def augment_audio(audio, sr):
+    # Add noise, time shift, pitch shift, etc.
+    return augmented_audio
+```
+
+### Custom Loss Functions
+
+Modify the loss function in `train.py`:
+
+```python
+# Example: Focal Loss
+criterion = FocalLoss(alpha=0.25, gamma=2.0)
+```
+
+## 📝 Logging
+
+All training logs are saved to `logs/training.log` with:
+- Timestamp
+- Log level
+- Detailed messages
+- Training progress
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **CUDA Out of Memory**
+   - Reduce `BATCH_SIZE` in `config.py`
+   - Use CPU by setting `DEVICE = "cpu"` in `config.py`
+
+2. **File Not Found Errors**
+   - Check paths in `config.py`
+   - Ensure data directory structure is correct
+
+3. **Import Errors**
+   - Reinstall dependencies: `pip install -r requirements.txt`
+   - Check Python version (3.8+)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## 📄 License
+
+See LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- Original dataset: TeamDeepwave
+- PyTorch community
+- Librosa for audio processing
+
+## 📧 Contact
+
+For questions or issues, please open an issue on GitHub.
+
+---
+
+**Note**: This project has been refactored and improved for better usability, readability, and maintainability. The original code has been cleaned up, bugs fixed, and comprehensive documentation added.
