@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiLSTM Economics | 3D Visualization</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+</head>
+<body class="dark-theme">
+    <div id="loader">
+        <div class="spinner"></div>
+        <p>Initializing Neural Architecture...</p>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">BiLSTM<span>ECO</span></div>
+            <ul>
+                <li><a href="#visualizer">3D Engine</a></li>
+                <li><a href="#metrics">Forecasting</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <h1>Multi-Layered <span class="gradient-text">Economics Forecasting</span></h1>
+                <p>Advanced BiLSTM architecture with real-time variance analysis for global economic trends.</p>
+                <div class="cta-group">
+                    <button class="primary-btn" onclick="scrollToVisualizer()">Initialize View</button>
+                    <button class="secondary-btn">View Metrics</button>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <span class="stat-label">Total Variance</span>
+                    <span class="stat-value" id="variance-val">0.007764</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Model Status</span>
+                    <span class="stat-value status-online">OPTIMIZED</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="visualizer-container">
+            <div id="three-canvas"></div>
+            <div class="overlay-info">
+                <h3>Neural Flow Visualization</h3>
+                <p>Real-time data propagation through BiLSTM Bidirectional layers.</p>
+                <div class="legend">
+                    <div class="legend-item"><span class="dot input"></span> Input Window</div>
+                    <div class="legend-item"><span class="dot forward"></span> Forward LSTM</div>
+                    <div class="legend-item"><span class="dot backward"></span> Backward LSTM</div>
+                    <div class="legend-item"><span class="dot output"></span> Variance Head</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="metrics">
+            <div class="grid">
+                <div class="glass-card">
+                    <h4>Stock Price Prediction</h4>
+                    <div class="chart-placeholder" id="stock-chart">
+                        <!-- Chart will be rendered here -->
+                        <div class="price-display">
+                            <span class="label">Predicted Next Close:</span>
+                            <span class="value">$165.52</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <h4>Monte Carlo Uncertainty</h4>
+                    <div class="chart-placeholder" id="variance-chart">
+                        <p>Confidence Interval: 98.2%</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 BiLSTM Project | Advanced Economics Engine</p>
+    </footer>
+
+    <script src="js/visualizer.js"></script>
+    <script>
+        function scrollToVisualizer() {
+            document.getElementById('visualizer-container').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
