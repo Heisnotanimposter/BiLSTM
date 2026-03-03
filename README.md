@@ -7,7 +7,10 @@ A comprehensive deep learning project for audio classification using Bidirection
 This project implements a robust audio classification system that can:
 - Extract MFCC features from audio files
 - Generate Mel-spectrogram images
-- Train BiLSTM and CNN-BiLSTM hybrid models
+- Train BiLSTM and CNN-BiLSTM hybrid models for audio classification
+- **[NEW] Economics Time-Series Forecasting**: BiLSTM architecture optimized for financial data
+- **[NEW] Total Variance Analysis**: Monte Carlo Dropout for prediction uncertainty estimation
+- **[NEW] 3D Neural Flow Visualizer**: Real-time Three.js landing page for architecture visualization
 - Evaluate model performance with comprehensive metrics
 - Generate predictions for new audio samples
 
@@ -97,9 +100,30 @@ python train.py --use-preprocessed
 
 ### 5. Inference
 
-    ```bash  
-python predict.py --model models/best_model.pt --input path/to/audio.ogg
-```
+### 6. Economics Forecasting
+    ```bash
+    # Train the economics model
+    conda run -n base python economics_train.py
+    
+    # Run prediction with Total Variance
+    conda run -n base python economics_predict.py
+    ```
+
+### 7. 3D Visualization
+    Open `web/index.html` in your favorite browser to view the real-time neural flow visualizer.
+
+## 📈 Economics Engine
+The project now includes a dedicated engine for economics forecasting:
+- **`economics_models.py`**: BiLSTM optimized for 1D time-series data.
+- **`economics_utils.py`**: Sliding window preprocessing and data scaling.
+- **`economics_train.py`**: Training pipeline for diversified datasets (Stock, GDP, Inflation).
+- **`economics_predict.py`**: Inference with Monte Carlo Dropout-based **Total Variance**.
+
+## 🎨 3D Visualization Landing Page
+A premium landing page built with Three.js provides:
+- **Interactive Neural Map**: Visualizes data flow through BiLSTM layers.
+- **Performance Dashboard**: Real-time display of prediction metrics and uncertainty.
+- **Glassmorphic UI**: High-end aesthetic with vibrant gradients and micro-animations.
 
 ## 📊 Features
 
